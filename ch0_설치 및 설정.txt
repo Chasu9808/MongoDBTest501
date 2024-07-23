@@ -14,10 +14,13 @@ https://www.mongodb.com/docs/v4.4/
 compass (몽고디비 서버에 접속하는 gui 툴 = heidi, )
 서버 시작 
 mongod --dbpath c:\mongodb_4.4.24\bin
-
+서버 종료 
+ctrl + c 
 
 2) 배포, 출시, 서버 작업을 한다면, 도커에 조금씩 관심.
 3) vscode 연습장으로, 사용할 예정. 
+
+
 - 기본구조
 - crud 
 - 집계(커리 조회)
