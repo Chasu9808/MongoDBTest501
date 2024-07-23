@@ -84,21 +84,24 @@ db.users.updateOne(
     { name: "이상용2" },
     { 
         $set: { 
-            "lunchMenuList.0": "새로운 첫번째 메뉴",
-            "lunchMenuList.1": "새로운 두번째 메뉴"
+            "lunchMenuList.0": "새로운 첫번째 메뉴11111",
+            "lunchMenuList.1": "새로운 두번째 메뉴22222"
         }
     }
 );
 
+use("testMember");  
+db.users.find()
 // 배열 수정 예5,객체 필드안 리스트의 첫번째 요소 변경 
 use("testMember");
 db.users.updateOne(
     { name: "이상용2" },
     { 
         $set: { 
-            "comment.lunchMenuList.1": "업데이트된 두번째 메뉴"
+            "comment.lunchMenuList.1": "업데이트된 두번째 메뉴33333"
         }
-    }
+    },
+    {upsert : true}
 );
 
 use("testMember");  
@@ -118,7 +121,7 @@ db.users.find()
 use("testMember");
 db.users.updateOne(
     { name: "이상용2" },
-    { $pull: { lunchMenuList: "새로운 두번째 메뉴2" } }
+    { $pull: { lunchMenuList: "새로운 두번째 메뉴22222" } }
 );
 
 
