@@ -12,9 +12,9 @@ db.character.insertMany([
   db.character.update(
     {},
     {
-      $set: { "inventory.$[penElm]": "pencil" },
+      $set: { "inventory.$[penElm]": "pen" },
     },
-    { arrayFilters: [{ penElm: "pen" }] }
+    { arrayFilters: [{ penElm: "pencil2" }] }
   );
   
   // 복수개 수정.
