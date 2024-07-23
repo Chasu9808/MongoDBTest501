@@ -15,6 +15,12 @@ db.users2.updateOne({ name: "SangYong Lee" }, { $set: { age: 30 } });
 
 db.users2.findOne({ name: "SangYong Lee" });
 
+// 변경
+db.users2.updateOne(
+    { name: "SangYong Lee"  },
+    { $set: { "name": "Lee2" } }
+  );
+
 db.users2.updateOne(
   { "name.first": "SangYong2" },
   { $set: { "name.last": "Lee2" } }
