@@ -73,7 +73,8 @@ db.inventory.insertMany([
   db.collection.find({ tags: { $size: 5 } }); //배열 lenth가 3인 문서
   
   // {item: "book", tags: ["red", "blank"]}
-  // 잘못됨. tags의 첫번째 인자[0]가 아니라 tags 배열의 0이란 원소를 출력하라는 의미
+  // 잘못됨. tags의 첫번째 인자[0]가 아니라 
+  //tags 배열의 0이란 원소를 출력하라는 의미
   db.collection.find({}, { "tags.10": 1 });
   
   // tags 배열의 [0], [1]을 출력하라 (앞에서 부터 2개를 출력하라)
@@ -101,3 +102,31 @@ db.inventory.insertMany([
   
   // #특정 조건에 부합하는 첫번째 데이터만 출력하라
   db.inventory.find({ tags: "red" }, { "tags.$": true });
+
+  db.stores.insert(
+    [
+    { _id: 1, name: "Java Hut", description: "Coffee and cakes" },
+    { _id: 2, name: "Burger Buns", description: "Gourmet hamburgers" },
+    { _id: 3, name: "Coffee Shop", description: "Just coffee" },
+    { _id: 4, name: "Clothes Clothes Clothes", description: "Discount clothing" },
+    { _id: 5, name: "Java Shopping", description: "Indonesian goods" }
+    ]
+    );
+
+    db.stores.createIndex({name:"text",description:"text"})
+
+    db.stores.find( { $text: { $search: "java coffee shop" } } )
+
+    db.stores.find( { $text: { $search: "\"coffee shop\"" } } )
+
+    db.stores.find( { $text: { $search: "java shop -coffee" } } )
+
+    db.stores.find(
+      
+      { $text: { $search: "java coffee shop" } },
+      //결과에서 어떤 필드를 반환할지 결정하는 프로젝션 부분으로, 
+      //각 문서에 텍스트 검색 관련성 점수를 score 필드에 추가합니다.
+      // $meta: "textScore": 문서의 값이 텍스트 검색 점수가 되도록 지정
+      { score: { $meta: "textScore" } }
+      //텍스트 검색 점수에 따라 결과를 내림차순으로 정렬합니다.
+       ).sort( { score: { $meta: "textScore" } } )
