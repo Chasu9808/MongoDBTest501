@@ -37,8 +37,12 @@ db.employees.getIndexes();
 // deptno 조회식, 인덱스로 검색을 안하는 부분 확인.
 db.employees.find({ deptno: 10 }).explain();
 
+db.users3.getIndexes();
+db.users3.createIndex({ name: 1 , age : 1});
+db.users3.dropIndex({ name: 1 });
+db.users3.dropIndex({ name: 1 , age : 1});
 //샘플코드 
-for (let i = 0; i < 10000; i++) {
+for (let i = 0; i < 1000000; i++) {
     db.users3.insertOne({
         name: "User" + i,
         lunchMenuList: ["Menu" + i, "Menu" + (i+1)],
