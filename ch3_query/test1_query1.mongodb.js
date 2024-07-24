@@ -44,7 +44,7 @@ db.inventory.insertMany([
   )
 
   db.collection.insertMany([
-    { item: "journal", qty: 25, tags: [10, 20, 30, 40, 50] },
+    { item: "journal", qty: 25, tags: [10, 20, 30, 40, 50,60,70] },
     { item: "notebook", qty: 50, tags: [1, 2, 3, 4, 5] },
     { item: "paper", qty: 100, tags: [3, 6, 9, 12, 15] },
     { item: "planner", qty: 75, tags: [7, 8, 9, 10, 11] },
@@ -70,20 +70,20 @@ db.inventory.insertMany([
   // $all을 쓰면 "red", "blank" 순서와 상관 없이 해당 요소가 있는지만 확인
   db.inventory.find({ tags: { $all: ["red", "blank"] } });
   
-  db.collection.find({ tags: { $size: 5 } }); //배열 lenth가 3인 문서
+  db.collection.find({ tags: { $size: 7 } }); //배열 lenth가 3인 문서
   
   // {item: "book", tags: ["red", "blank"]}
   // 잘못됨. tags의 첫번째 인자[0]가 아니라 
-  //tags 배열의 0이란 원소를 출력하라는 의미
-  db.collection.find({}, { "tags.10": 1 });
+  //tags 배열의 0번째 원소를 포함한 문서를 출력하라는 의미
+  db.collection.find({}, { "tags.6": 1 });
   
   // tags 배열의 [0], [1]을 출력하라 (앞에서 부터 2개를 출력하라)
-  db.collection.find({}, { tags: { $slice: 2 } });
+  db.collection.find({}, { tags: { $slice: 3 } });
   
   // tags 배열의 [2:3] 을 출력하라
   // $slice: [2, 1]  : 2: 인덱스 번호
   // 1 : 가지고 올 갯수
-  db.collection.find({}, { tags: { $slice: [2, 1] } });
+  db.collection.find({}, { tags: { $slice: [2, 3] } });
   
   // test #m 사용
   db.inventory.find({ item: /^p/i });
@@ -102,6 +102,7 @@ db.inventory.insertMany([
   
   // #특정 조건에 부합하는 첫번째 데이터만 출력하라
   db.inventory.find({ tags: "red" }, { "tags.$": true });
+  db.inventory.find({tags: "red" }, { tags: { $slice: [0, 2] } });
 
   db.stores.insert(
     [
