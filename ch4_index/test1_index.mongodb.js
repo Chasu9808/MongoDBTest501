@@ -147,13 +147,20 @@ for (var i = 0; i < 100; i++) {
 }
 
 db.spatial.ensureIndex({ pos: "2d" });
-db.spatial.find({ pos: { $near: [5, 5] } }, { _id: 0 }).limit(5);
+
+db.spatial.find(
+    { pos: { $near: [5, 5] } },
+     { _id: 0 }
+    ).limit(10);
 db.spatial
   .find({ pos: { $near: [5, 5] } }, { _id: 0 })
   .limit(5)
   .explain();
 //CENTER
-db.spatial.find({ pos: { $within: { $center: [[5, 5], 2] } } }, { _id: 0 });
+db.spatial.find(
+    { pos: { $within: { $center: [[5, 5], 2] } } }
+    ,
+     { _id: 0 });
 //BOX
 db.spatial.find(
   {
@@ -208,6 +215,7 @@ db.tel_pos.insert({
     [127.2223331, 37.091209],
   ],
 });
+
 db.tel_pos.ensureIndex({ last_pos: "2d" });
 db.tel_pos
   .find(
