@@ -1,4 +1,4 @@
-설정 서버 구성
+설정 서버 구성 - 상용1
 1
 mkdir c:\db2\data\config0-0
 mkdir c:\db2\data\config0-1
@@ -26,7 +26,7 @@ members: [
 )
 
 
-샤드 구성1
+샤드 구성1 - 상용2
 1
 mkdir c:\db2\data\shard0-0
 mkdir c:\db2\data\shard0-1
@@ -52,7 +52,7 @@ members: [
 }
 )
 
-샤드 구성2
+샤드 구성2 - 상용3
 1
 mkdir c:\db2\data\shard1-0
 mkdir c:\db2\data\shard1-1
@@ -78,7 +78,7 @@ members: [
 }
 )
 
-샤드 구성3
+샤드 구성3- 상용4
 1
 mkdir c:\db2\data\shard2-0
 mkdir c:\db2\data\shard2-1
@@ -116,8 +116,9 @@ replication :
 
 클라이언트에서 연결 
 
-mongos 설정하기. 
+mongos 설정하기. - 상용5
 
+localhost -> 상용1
 mongos --configdb config0/localhost:27018 --port 20000
 
 
@@ -140,7 +141,8 @@ db.createUser(
 )
 
 
-
+상용 5 
+localhost -> 상용2 아이피 
 sh.addShard("shard0/localhost:27021")
 sh.addShard("shard1/localhost:27031")
 sh.addShard("shard2/localhost:27041")
@@ -160,7 +162,7 @@ x:"hashed"
 
 use test2345
 
-for(var i = 10001; i<20001; i++){
+for(var i = 1; i<10001; i++){
 db.test.insertOne({x:i,ename:i,sal:100})
 }
 
