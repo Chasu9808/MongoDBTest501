@@ -1,3 +1,5 @@
+주의사항, 몽고스 중개라우터, 설정 서버 같은 곳에서 일단 하기.
+
 설정 서버 구성 - 상용1
 1
 mkdir c:\db2\data\config0-0
@@ -5,9 +7,9 @@ mkdir c:\db2\data\config0-1
 mkdir c:\db2\data\config0-2
 
 2 각 창에 명령어를 하나씩 실행해야 함. 
-mongod --configsvr --replSet config0 --port 27018 --bind_ip localhost --dbpath /db2/data/config0-0 
-mongod --configsvr --replSet config0 --port 27019 --bind_ip localhost --dbpath /db2/data/config0-1
-mongod --configsvr --replSet config0 --port 27020 --bind_ip localhost --dbpath /db2/data/config0-2
+mongod --configsvr --replSet config0 --port 27018 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-0 
+mongod --configsvr --replSet config0 --port 27019 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-1
+mongod --configsvr --replSet config0 --port 27020 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-2
 
 3
 mongo --port 27018
@@ -18,9 +20,9 @@ rs.initiate(
 _id : "config0",
 configsvr:true,
 members: [
-{_id:0, host:"localhost:27018"},
-{_id:1, host:"localhost:27019"},
-{_id:2, host:"localhost:27020"}
+{_id:0, host:"10.100.201.87:27018"},
+{_id:1, host:"10.100.201.87:27019"},
+{_id:2, host:"10.100.201.87:27020"}
 ]
 }
 )
@@ -33,9 +35,9 @@ mkdir c:\db2\data\shard0-1
 mkdir c:\db2\data\shard0-2
 
 2 각 창에 명령어를 하나씩 실행해야 함. 
-mongod --shardsvr --replSet shard0 --port 27021 --bind_ip localhost --dbpath /db2/data/shard0-0 
-mongod --shardsvr --replSet shard0 --port 27022 --bind_ip localhost --dbpath /db2/data/shard0-1
-mongod --shardsvr --replSet shard0 --port 27023 --bind_ip localhost --dbpath /db2/data/shard0-2
+mongod --shardsvr --replSet shard0 --port 27021 --bind_ip 0.0.0.0 --dbpath /db2/data/shard0-0 
+mongod --shardsvr --replSet shard0 --port 27022 --bind_ip 0.0.0.0 --dbpath /db2/data/shard0-1
+mongod --shardsvr --replSet shard0 --port 27023 --bind_ip 0.0.0.0 --dbpath /db2/data/shard0-2
 
 3
 mongo --port 27021
@@ -45,9 +47,9 @@ rs.initiate(
 {
 _id : "shard0",
 members: [
-{_id:0, host:"localhost:27021"},
-{_id:1, host:"localhost:27022"},
-{_id:2, host:"localhost:27023",arbiterOnly: true}
+{_id:0, host:"<본인아이피>:27021"},
+{_id:1, host:"<본인아이피>:27022"},
+{_id:2, host:"<본인아이피>:27023",arbiterOnly: true}
 ]
 }
 )
@@ -59,9 +61,9 @@ mkdir c:\db2\data\shard1-1
 mkdir c:\db2\data\shard1-2
 
 2 각 창에 명령어를 하나씩 실행해야 함. 
-mongod --shardsvr --replSet shard1 --port 27031 --bind_ip localhost --dbpath /db2/data/shard1-0
-mongod --shardsvr --replSet shard1 --port 27032 --bind_ip localhost --dbpath /db2/data/shard1-1
-mongod --shardsvr --replSet shard1 --port 27033 --bind_ip localhost --dbpath /db2/data/shard1-2
+mongod --shardsvr --replSet shard1 --port 27031 --bind_ip 0.0.0.0 --dbpath /db2/data/shard1-0
+mongod --shardsvr --replSet shard1 --port 27032 --bind_ip 0.0.0.0 --dbpath /db2/data/shard1-1
+mongod --shardsvr --replSet shard1 --port 27033 --bind_ip 0.0.0.0 --dbpath /db2/data/shard1-2
 
 3
 mongo --port 27031
@@ -71,9 +73,9 @@ rs.initiate(
 {
 _id : "shard1",
 members: [
-{_id:0, host:"localhost:27031"},
-{_id:1, host:"localhost:27032"},
-{_id:2, host:"localhost:27033",arbiterOnly: true}
+{_id:0, host:"<본인아이피>:27031"},
+{_id:1, host:"<본인아이피>:27032"},
+{_id:2, host:"<본인아이피>:27033",arbiterOnly: true}
 ]
 }
 )
@@ -85,9 +87,9 @@ mkdir c:\db2\data\shard2-1
 mkdir c:\db2\data\shard2-2
 
 2 각 창에 명령어를 하나씩 실행해야 함. 
-mongod --shardsvr --replSet shard2 --port 27041 --bind_ip localhost --dbpath /db2/data/shard2-0
-mongod --shardsvr --replSet shard2 --port 27042 --bind_ip localhost --dbpath /db2/data/shard2-1
-mongod --shardsvr --replSet shard2 --port 27043 --bind_ip localhost --dbpath /db2/data/shard2-2
+mongod --shardsvr --replSet shard2 --port 27041 --bind_ip 0.0.0.0 --dbpath /db2/data/shard2-0
+mongod --shardsvr --replSet shard2 --port 27042 --bind_ip 0.0.0.0 --dbpath /db2/data/shard2-1
+mongod --shardsvr --replSet shard2 --port 27043 --bind_ip 0.0.0.0 --dbpath /db2/data/shard2-2
 
 3
 mongo --port 27041
@@ -97,9 +99,9 @@ rs.initiate(
 {
 _id : "shard2",
 members: [
-{_id:0, host:"localhost:27041"},
-{_id:1, host:"localhost:27042"},
-{_id:2, host:"localhost:27043",arbiterOnly: true}
+{_id:0, host:"<본인아이피>:27041"},
+{_id:1, host:"<본인아이피>:27042"},
+{_id:2, host:"<본인아이피>:27043",arbiterOnly: true}
 ]
 }
 )
@@ -121,13 +123,17 @@ mongos 설정하기. - 상용5
 localhost -> 상용1
 mongos --configdb config0/localhost:27018 --port 20000
 
+mongos --configdb config0/<설정서버아이피>:27018 --port 20000
+
 
 
 mongo shell 접속 
+여기로 접속
 mongo --port 20000 
+
+방법만 참고
 다른 아이피 접속하는 옵션 추가
 mongo --host <상대방 아이피> --port 20000
-
 
 mongo --port 20000 -u fred -p 1234
 
@@ -150,6 +156,10 @@ localhost -> 상용2 아이피
 sh.addShard("shard0/localhost:27021")
 sh.addShard("shard1/localhost:27031")
 sh.addShard("shard2/localhost:27041")
+
+sh.addShard("shard0/10.100.201.52:27021")
+sh.addShard("shard1/10.100.201.52:27031")
+sh.addShard("shard2/10.100.201.52:27041")
 
 use config
 db.shards.find()
