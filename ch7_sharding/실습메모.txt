@@ -125,6 +125,10 @@ mongos --configdb config0/localhost:27018 --port 20000
 
 mongo shell 접속 
 mongo --port 20000 
+다른 아이피 접속하는 옵션 추가
+mongod --port 27018 --bind_ip 192.168.1.100
+
+
 mongo --port 20000 -u fred -p 1234
 
 
