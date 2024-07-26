@@ -114,7 +114,7 @@
           $match: {
             user_id: { $lte: 6 },
           },
-        },
+        }, // 스테이지 후, 결과 데이터가 발생함. 
         {
           $group: {
             _id: "$rating",
@@ -124,6 +124,7 @@
           },
         },
       ]);
+      // 
 
 -> user_id 6이하 중에서
 -> _id : rating 점수별로, 누적 갯수 세기.
@@ -827,7 +828,7 @@ db.by_month.aggregate([
 		as : "area_data"
 		}
 	},
-	{$limit: 1}
+	{$limit: 3}
 ])
 
 어려운 버전,
@@ -870,7 +871,7 @@ db.orders.aggregate([
 	 // 주어진 조건에 맞는 도큐먼트만 남기게 만듦. 
 	 pipeline: [
 	  { $match:
-	   { $ezpr:
+	   { $expr:
 	    { $and:
 		 [ 
 		 // 사용함. 

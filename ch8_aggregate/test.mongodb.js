@@ -215,6 +215,51 @@ db.rating.insertMany([
     },
   ]);
   
+
+  db.rating.aggregate([
+    {
+      $addFields : {
+        hi: "world"
+      }
+    },
+    { $project: {_id:0,hi:1}},
+    { $limit: 3}
+  ])
+
+  db.rating.aggregate([
+    {
+      $addFields : {
+        "hi.hello": "world"
+      }
+    },
+    { $project: {hi:{hello:1}}},
+    { $limit: 3}
+  ])
+
+  db.rating.aggregate([
+    {
+    // 배열로 만드는 연산자
+      $facet: {
+      // 임의 필드 이름을 정함.:categorizedByRating
+        categorizedByRating : [
+        // $group -> _id 값을 기준으로 그룹으로 나눈다.
+  // 수동으로 나누었다면,	  
+        { $group: {_id: "$rating",
+        // $rating 별로 누적 갯수, 1씩 더한다.
+        count: {$sum: 1}
+        }}
+        ],
+        //categorizedById(Auto) 의 필드 : 임시 이름. 
+        
+        "categorizedById(Auto)":[
+        // 자동으로 5등분.
+          { $bucketAuto: {groupBy: 
+          "$_id", buckets:5} }
+          ]
+      }
+    }
+  ])
+
   //$lookup
   db.by_month.aggregate([
     {
@@ -225,7 +270,7 @@ db.rating.insertMany([
         as: "area_data",
       },
     },
-    { $limit: 1 },
+    { $limit: 3 },
   ]);
   
   //$replaceRoot
