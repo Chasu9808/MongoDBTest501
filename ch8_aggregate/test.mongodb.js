@@ -16,7 +16,7 @@ db.rating.insertMany([
   db.rating.aggregate([
     {
       $match: {
-        user_id: { $lte: 12 },
+        user_id: { $lte: 6 },
       },
     },
     {
@@ -32,7 +32,7 @@ db.rating.insertMany([
   //기본 스테이지 예시들
   db.rating.aggregate([
     {
-      $project: { _id: 1, rating: 1 },
+      $project: { _id: 0, rating: 1 },
     },
   ]);
   
@@ -56,6 +56,14 @@ db.rating.insertMany([
       },
     },
   ]);
+
+  db.rating.aggregate([
+    {
+  $group: {
+    _id: "$rating", count: {$sum: 1}
+  }
+    }
+  ])
   
   // $group 안에 , $sum 과 비슷한 함수들이 존재.  $first, $last, min,max ,
   db.rating.aggregate([
@@ -150,12 +158,34 @@ db.rating.insertMany([
       },
     }, // 3번째 정렬. 순서1
     {
-      $limit: 5, // 순서2
+      $limit: 6, // 순서2
     },
     {
-      $skip: 1, // 순서3
+      $skip: 5, // 순서3
     },
   ]);
+
+  db.local.aggregate([
+    {
+        $match:
+          {sub_category: "행사비"}
+        },
+        {
+            $group : {
+                _id: "$city_or_province",
+                expense_avg: {
+                    $avg: "$this_term_expense"
+                }
+            }
+
+        },
+        { $sort: {
+          expense_avg: -1
+        }}
+
+  ])
+
+
   
   // 고급 스테이지 소개.
   // $bucket
@@ -179,7 +209,7 @@ db.rating.insertMany([
       $facet: {
         categorizedByRating: [{ $group: { _id: "$rating", count: { $sum: 1 } } }],
         "categorizedById(Auto)": [
-          { $bucketAuto: { groupBy: "$_id", buckets: 5 } },
+          { $bucketAuto: { groupBy: "$_id", buckets: 2 } },
         ],
       },
     },
