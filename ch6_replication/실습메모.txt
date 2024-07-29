@@ -29,7 +29,7 @@ rs.initiate(
 {
 _id : "rs0",
 members: [
-{_id:0, host:"10.100.201.87:27018"},
+{_id:0, host:"localhost:27018"},
 {_id:1, host:"localhost:27019"},
 {_id:2, host:"localhost:27020"}
 ]
@@ -47,7 +47,7 @@ members: [
 -mongo --port 27019 
 -db.replicationTest2.insertOne({hello2: 'world2'})
 세커더리에 접속 해서 
--db.replicationTest.find()
+-db.replicationTest2.find()
 
 에러 발생 기본값으로 세컨더리에서 몽고디비 셸 사용 못하게 설정되어 있음.
 rs.slaveOk()

@@ -11,6 +11,11 @@ mongod --configsvr --replSet config0 --port 27018 --bind_ip 0.0.0.0 --dbpath /db
 mongod --configsvr --replSet config0 --port 27019 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-1
 mongod --configsvr --replSet config0 --port 27020 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-2
 
+mongod --configsvr --replSet config0 --port 27018 --bind_ip localhost --dbpath /db2/data/config0-0 
+mongod --configsvr --replSet config0 --port 27019 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-1
+mongod --configsvr --replSet config0 --port 27020 --bind_ip 0.0.0.0 --dbpath /db2/data/config0-2
+
+
 3
 mongo --port 27018
 
@@ -191,6 +196,17 @@ sh.addShard("shard0/localhost:27021")
 sh.addShard("shard1/localhost:27031")
 sh.addShard("shard2/localhost:27041")
 
+메모 , 7.0.12 에서 
+과반수 동의건 설정 필요
+클러스터 전역의 기본 쓰기 우려를 과반수(w: "majority")로 설정
+use admin
+db.adminCommand({
+  setDefaultRWConcern: 1,
+  defaultWriteConcern: { w: "majority" }
+})
+
+
+
 sh.addShard("shard0/10.100.201.87:27021")
 sh.addShard("shard1/10.100.201.87:27031")
 sh.addShard("shard2/10.100.201.87:27041")
@@ -210,6 +226,10 @@ use admin
 
 sh.shardCollection("test2345.test",{
 x:"hashed"
+})
+
+sh.shardCollection("test2345.test",{
+x:1
 })
 
 use test2345
